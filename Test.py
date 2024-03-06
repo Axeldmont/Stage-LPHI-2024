@@ -22,9 +22,10 @@ while True:
 
     # Convertir l'image en niveaux de gris
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
+    blur = cv2.GaussianBlur(gray, (9,9), 0)
+    thresh = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV,23,3)
     # Appliquer le détecteur de mouvement
-    mask = object_detector.apply(gray)
+    mask = object_detector.apply(thresh)
 
     # Trouver les contours des objets en mouvement
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
