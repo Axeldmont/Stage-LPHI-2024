@@ -1,0 +1,12 @@
+Chaine Youtube : 
+- EU project ImageInLife
+
+
+Logiciel :
+-Autobeats - MATLAB
+-Caldyn
+-Morphoscript (MATLAB) - peu adapté 
+-Flika
+-DeepCAD - traitement d'image pour un aspect "propre" des signaux de calcium 
+-CaImAn - Python, adapté aux neurones 
+-Cellpose - Python
