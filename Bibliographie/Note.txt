@@ -5,8 +5,14 @@ Chaine Youtube :
 Logiciel :
 -Autobeats - MATLAB
 -Caldyn
--Morphoscript (MATLAB) - peu adapté 
+-Morphoscript (MATLAB) - pas adapté - https://pubmed.ncbi.nlm.nih.gov/34048539/
 -Flika
 -DeepCAD - traitement d'image pour un aspect "propre" des signaux de calcium 
--CaImAn - Python, adapté aux neurones 
+-CaImAn - Python, adapté aux neurones - https://elifesciences.org/articles/38173
 -Cellpose - Python
+-Algorithme SLIC - https://www.iro.umontreal.ca/~mignotte/IFT6150/Articles/SLIC_Superpixels.pdf
+
+Ressource aide :
+-https://pubmed.ncbi.nlm.nih.gov/35881691/
+-https://pubmed.ncbi.nlm.nih.gov/15536176/
+-https://edoc.ub.uni-muenchen.de/28039/
