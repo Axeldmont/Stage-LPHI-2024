@@ -213,15 +213,59 @@ def process_video(input_video_path, output_video_path):
     out.release()
     cv2.destroyAllWindows()
 
-# Appeler la fonction pour traiter le fichier vidéo d'entrée et générer la vidéo de sortie
-input_video_path = 'Data\Test\C1-fish2-21-30.avi'
-output_video_path = 'output_video.avi'
-process_video(input_video_path, output_video_path)
 
-# Exemple d'utilisation
-input_image_path = 'Data\Test\C2-220208-mfap4GCAMP-Cut-25hpa2_red and green.jpg'
-input_image_path2 = 'Data\Test\C1-220208_resul_mfap4-mcherry__mfap4-gcamp6_01_red and green_MAX.jpg'
-slic_output, bordered_output = locatev3(input_image_path)
-print("Images générées:", slic_output, bordered_output)
-slic_output, bordered_output = locatev3(input_image_path2)
-print("Images générées:", slic_output, bordered_output)
+class Macrophage:
+    def __init__(self, contour):
+        self.contour = contour
+        self.coordinates = self.get_coordinates()
+
+    def get_coordinates(self):
+        # Trouver les coordonnées du contour
+        coordinates = []
+        for point in self.contour:
+            coordinates.append((point[0][0], point[0][1]))
+        return coordinates
+
+def locatev4(path_img, min_contour_area=1000):
+    # Charger l'image :
+    img = cv2.imread(path_img)
+
+    # Convertir l'image en espace de couleur HSV :
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+    # Définir les plages HSV pour le rouge :
+    lower_red = np.array([0, 70, 70])  # Plage basse pour la teinte, la saturation et la valeur
+    upper_red = np.array([10, 255, 255])  # Plage haute pour la teinte, la saturation et la valeur
+
+    # Créer un masque pour les pixels rouges :
+    mask = cv2.inRange(img_hsv, lower_red, upper_red)
+
+    # Trouver les contours des zones rouges :
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Créer une liste pour stocker les macrophages détectés
+    macrophages = []
+
+    # Dessiner des contours sur l'image :
+    for contour in contours:
+        # Calculer l'aire du contour
+        contour_area = cv2.contourArea(contour)
+        # Ignorer les contours trop petits
+        if contour_area < min_contour_area:
+            continue
+        # Créer une instance de la classe Macrophage pour enregistrer les coordonnées du contour
+        macrophage = Macrophage(contour)
+        macrophages.append(macrophage)
+
+    # Créer une copie de l'image pour dessiner les rectangles :
+    img_with_boundaries = img.copy()
+
+    # Dessiner des contours sur l'image img_with_boundaries :
+    for macrophage in macrophages:
+        cv2.drawContours(img_with_boundaries, [np.array(macrophage.coordinates)], -1, [255, 0, 0], 3)
+
+    # Sauvegarde de l'image avec les contours :
+    contour_output_path = path_img.replace('.jpg', '_contour.jpg')
+    cv2.imwrite(contour_output_path, img_with_boundaries)
+
+    return macrophages
