@@ -269,3 +269,55 @@ def locatev4(path_img, min_contour_area=1000):
     cv2.imwrite(contour_output_path, img_with_boundaries)
 
     return macrophages
+
+
+############################## VIDEO ##################################
+
+
+class Macrophage:
+    def __init__(self, frame_number, contour):
+        self.frame_number = frame_number
+        self.contour = contour
+        self.coordinates = self.get_coordinates()
+
+    def get_coordinates(self):
+        coordinates = []
+        for point in self.contour:
+            coordinates.append((point[0][0], point[0][1]))
+        return coordinates
+
+def locatev4(video_path, min_contour_area=500, save_frames_with_contours=False):
+    cap = cv2.VideoCapture(video_path)
+    frames = []
+    macrophages_per_frame = []
+
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        frames.append(frame)
+
+    for frame_number, frame in enumerate(frames):
+        img_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        lower_red = np.array([0, 25, 25])
+        upper_red = np.array([10, 255, 255])
+        mask = cv2.inRange(img_hsv, lower_red, upper_red)
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        macrophages = []
+        for contour in contours:
+            contour_area = cv2.contourArea(contour)
+            if contour_area < min_contour_area:
+                continue
+            macrophage = Macrophage(frame_number, contour)
+            macrophages.append(macrophage)
+            if save_frames_with_contours:
+                cv2.drawContours(frame, [contour], -1, [0, 255, 0], 3)
+        macrophages_per_frame.append(macrophages)
+
+        if save_frames_with_contours:
+            cv2.imwrite(f"frame_{frame_number}_with_contours.jpg", frame)
+
+    cap.release()
+
+    return macrophages_per_frame
