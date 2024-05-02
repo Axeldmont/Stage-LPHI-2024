@@ -275,7 +275,7 @@ def locatev4(path_img, min_contour_area=1000):
 
 
 class Macrophage:
-    def __init__(self, frame_number, contour):
+    def __init__(self, frame_number, contour: list) -> None:
         self.frame_number = frame_number
         self.contour = contour
         self.coordinates = self.get_coordinates()
