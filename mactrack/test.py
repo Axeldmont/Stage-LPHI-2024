@@ -1,3 +1,6 @@
 from locate.locate import locate 
+from inputconfig import inputconfig
 
-locate("input/fish3_mp4")
+input_folder = "input/fish3_mp4"
+inputconfig(input_folder)
+locate(input_folder)
