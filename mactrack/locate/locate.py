@@ -91,5 +91,3 @@ def locate(input_folder):
         for filename, count in image_objects_count.items():
             summary_file.write(f"{filename} : {count} objets\n")
 
-# Exemple d'utilisation :
-locate("input/fish2_mp4")
