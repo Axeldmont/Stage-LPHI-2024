@@ -87,7 +87,7 @@ def locate(input_folder):
         object_count = extract_objects(image, output_dir_list, filename)
         image_objects_count[filename] = object_count
 
-    with open(os.path.join(output_dir_list, "summary.txt"), "w") as summary_file:
+    with open(os.path.join("output", "summary.txt"), "w") as summary_file:
         for filename, count in image_objects_count.items():
             summary_file.write(f"{filename} : {count} objets\n")
 
