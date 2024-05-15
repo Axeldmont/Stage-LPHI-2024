@@ -37,12 +37,10 @@ def track(threshold_iou):
         files_i = os.listdir(input_folder_i)
 
         for j in range(0,len(files_i)):
-            # image actuelle
             image_path = os.path.join(input_folder_i, f"object_{j}.png")
             image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
             _, image1 = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
 
-            # Comparaison avec les images des dossiers précédents
             input_folder_k = f"output/list_sep/heatmap_test_{i-1}"
             files_k = os.listdir(input_folder_k)
             for k in range(0,len(files_k)):
