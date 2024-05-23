@@ -42,8 +42,8 @@ def locate(input_folder):
         os.makedirs(output_dir_masks)
 
     fitness = FitnessIOU()
-    ensemble = ModelPool(os.path.join(input_folder, "models"), fitness, regex="*/elite.json").to_ensemble()
-    dataset = read_dataset(os.path.join(input_folder, "dataset"), counting=True)
+    ensemble = ModelPool(os.path.join(input_folder, r"models"), fitness, regex="*/elite.json").to_ensemble()
+    dataset = read_dataset(os.path.join(input_folder, r"dataset"), counting=True)
     p_test = ensemble.predict(dataset.test_x)
 
     for i in range(130):
