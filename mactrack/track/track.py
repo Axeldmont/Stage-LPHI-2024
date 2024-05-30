@@ -2,7 +2,6 @@ import os
 import shutil
 import cv2
 import numpy as np
-import time
 
 def calculate_iou(segmentation1, segmentation2):
     intersection = np.logical_and(segmentation1, segmentation2)
@@ -20,7 +19,6 @@ def find_containing_folder(image_path, root_folder):
     return None
 
 def track(threshold_iou):
-    start_time = time.time()
     c = 1
 
     for j, filename in enumerate(os.listdir("output/list_sep/heatmap_test_0")):
@@ -65,7 +63,3 @@ def track(threshold_iou):
                     output_path = os.path.join(output_folder, new_filename)
                     shutil.copy(image_path, output_path)
                     c = c + 1
-
-    end_time = time.time()  
-    elapsed_time = end_time - start_time
-    print(f"Total execution time: {elapsed_time:.2f} seconds")
