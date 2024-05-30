@@ -4,6 +4,7 @@ from track.track import track
 from locate.defuse import defuse,invdefuse
 from video.result import video,result
 import time
+from line_profiler import LineProfiler
 
 start_time = time.time()
 input_folder = "input/fish3_mp4"
@@ -13,10 +14,15 @@ input_folder = "input/fish3_mp4"
 #defuse()
 #invdefuse() pas encore bon correctif sur process 
 #track(0.5)
-result(input_folder)
-video()
+#result(input_folder)
+#video()
 
 ########################################################
+profiler = LineProfiler()
+profiler.add_function(video)
+profiler.run('video()')
+profiler.print_stats()
+
 
 end_time = time.time()  
 elapsed_time = end_time - start_time
