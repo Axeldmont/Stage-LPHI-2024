@@ -1,9 +1,8 @@
 from locate.locate import locate 
-from mactrack.video.video import video
 from video.inputconfig import inputconfig,inputconfigv
 from track.track import track
 from locate.defuse import defuse,invdefuse
-from video.result import result
+from video.result import video,result
 import time
 
 start_time = time.time()
@@ -14,7 +13,7 @@ input_folder = "input/fish3_mp4"
 #defuse()
 #invdefuse() pas encore bon correctif sur process 
 #track(0.5)
-#result(input_folder)
+result(input_folder)
 video()
 
 ########################################################
