@@ -2,7 +2,6 @@ import os
 import shutil
 import cv2
 import numpy as np
-import time
 
 def calculate_iou(segmentation1, segmentation2):
     intersection = np.logical_and(segmentation1, segmentation2)
