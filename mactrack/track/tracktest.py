@@ -44,8 +44,7 @@ def track(threshold_iou):
         prev_folder_files = {}
         prev_folder_path = heatmap_base + str(i-1)
         files_k = os.listdir(prev_folder_path)
-        
-        # Read all previous folder images once and store them in a dictionary
+
         for k, file_k in enumerate(files_k):
             imagecomp_path = os.path.join(prev_folder_path, file_k)
             imagecomp = cv2.imread(imagecomp_path, cv2.IMREAD_GRAYSCALE)
