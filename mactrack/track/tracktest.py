@@ -18,7 +18,6 @@ def find_containing_folder(image_name, root_folder):
     return None
 
 def track(threshold_iou):
-    start_time = time.time()
     c = 1
     output_track = "output/list_track"
     os.makedirs(output_track, exist_ok=True)
@@ -78,8 +77,4 @@ def track(threshold_iou):
                 shutil.copy(image_path, output_path)
                 folder_dict[new_filename] = output_folder
                 c = c + 1
-
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-    print(f"Total execution time: {elapsed_time:.2f} seconds")
 
