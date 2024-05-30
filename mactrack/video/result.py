@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import random
 
 def draw_contours(image, contours, number, colors):
     color = colors[number % len(colors)]
@@ -14,27 +15,16 @@ def draw_contours(image, contours, number, colors):
             cX, cY = contour[0][0]
         cv2.putText(image, str(number), (cX, cY), cv2.FONT_HERSHEY_SIMPLEX, 2, color, 2)
 
+def generate_random_rgb_color():
+    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
 def result(input_folder):
     input_folder = os.path.join(input_folder, 'dataset/test/test_x')
     output_folder = 'output/result'
     list_track_folder = 'output/list_track'
     os.makedirs(output_folder, exist_ok=True)
 
-    colors = [
-        (255, 0, 0),     # Bleu
-        (0, 255, 0),     # Vert
-        (0, 0, 255),     # Rouge
-        (255, 255, 0),   # Cyan
-        (255, 0, 255),   # Magenta
-        (0, 255, 255),   # Jaune
-        (255, 255, 255), # Blanc
-        (128, 0, 0),     # Marron
-        (128, 128, 0),   # Olive
-        (0, 128, 0),     # Vert foncé
-        (128, 0, 128),   # Violet
-        (0, 128, 128),   # Bleu-vert
-        (0, 0, 128)      # Marine
-    ]
+    colors = [generate_random_rgb_color() for _ in range(100)]
 
     for image_file in os.listdir(input_folder):
         if image_file.endswith('_image.png'):
