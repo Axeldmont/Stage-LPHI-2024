@@ -5,10 +5,12 @@ from locate.defuse import defuse,invdefuse
 from video.result import video,result
 import time
 from line_profiler import LineProfiler
+import cv2
 
 start_time = time.time()
 input_folder = "input/fish3_mp4"
-#inputconfig(input_folder)
+frame = inputconfig(input_folder)
+cv2.imwrite("output/test.png",frame.frames[0])
 #inputconfigv(input_folder)
 #locate(input_folder)
 #defuse()
@@ -18,10 +20,10 @@ input_folder = "input/fish3_mp4"
 #video()
 
 ########################################################
-profiler = LineProfiler()
-profiler.add_function(video)
-profiler.run('video()')
-profiler.print_stats()
+#profiler = LineProfiler()
+#profiler.add_function(video)
+#profiler.run('video()')
+#profiler.print_stats()
 
 
 end_time = time.time()  

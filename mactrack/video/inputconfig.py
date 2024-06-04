@@ -1,6 +1,6 @@
 import cv2
 import os
-from structure.frame import VideoFrames
+from video.frame import VideoFrames
 
 def inputconfig(input_folder):
     output_folder = os.path.join(input_folder, "dataset/test/test_x")
