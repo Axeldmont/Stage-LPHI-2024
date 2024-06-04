@@ -1,5 +1,6 @@
 import cv2
 import os
+from structure.frame import VideoFrames
 
 def inputconfig(input_folder):
     output_folder = os.path.join(input_folder, "dataset/test/test_x")
@@ -14,17 +15,20 @@ def inputconfig(input_folder):
 
     video_capture = cv2.VideoCapture(video_path)
     count = 0
-    
+    video_frames = VideoFrames()
+
     while True:
         success, frame = video_capture.read()
         if not success:
             break
-        
+
+        video_frames.add_frame(frame)
         filename = os.path.join(output_folder, f"{count:03d}_image.png")
         cv2.imwrite(filename, frame)
         count += 1
     
     video_capture.release()
+    return video_frames
 
 def inputconfigv(input_folder):
     input_folder_v = os.path.join(input_folder,"vert")
@@ -51,3 +55,5 @@ def inputconfigv(input_folder):
         count += 1
     
     video_capture.release()
+
+
