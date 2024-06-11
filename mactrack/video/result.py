@@ -126,3 +126,22 @@ def video():
     video.release()
     cv2.destroyAllWindows()
     print(f"Vidéo créée avec succès : {video_output}")
+
+def videocomp():
+    image_folder = 'output/list_comp'
+    video_name = 'output/result_video_w.mp4'
+    images = [img for img in os.listdir(image_folder) if img.endswith(".png")]
+    images.sort(key=lambda x: int(x.split('_')[-1].split('.')[0]))
+    first_image_path = os.path.join(image_folder, images[0])
+    frame = cv2.imread(first_image_path)
+    height, width, layers = frame.shape
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    video = cv2.VideoWriter(video_name, fourcc, 10.0, (width, height))
+
+    for image in images:
+        image_path = os.path.join(image_folder, image)
+        frame = cv2.imread(image_path)
+        video.write(frame)
+
+    video.release()
+    cv2.destroyAllWindows()
