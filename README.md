@@ -22,7 +22,7 @@ You can now run the program **gettingstarted.py** who will show each step and fu
 
 **Warning !** You need to add this class to the file "~/anaconda3/Lib/site-packages/numena/io/json.py" 
 
-```
+```python
 class Serializable(ABC):
     """Python Interface to export Python objects to JSON format.
 
