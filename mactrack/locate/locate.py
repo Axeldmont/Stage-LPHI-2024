@@ -59,7 +59,7 @@ def locate(input_folder):
         os.makedirs(output_dir_masks2)
 
     file_list = os.listdir(input_dir_masks)
-    min_shape_size = 800 
+    min_shape_size = 100 
 
     for filename in file_list:
         input_path = os.path.join(input_dir_masks, filename)
@@ -90,4 +90,3 @@ def locate(input_folder):
     with open(os.path.join("output", "summary.txt"), "w") as summary_file:
         for filename, count in image_objects_count.items():
             summary_file.write(f"{filename} : {count} objets\n")
-
