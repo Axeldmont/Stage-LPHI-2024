@@ -10,6 +10,7 @@ results
 6hpa_fish6
 24hpa_fish7
 24hpa_fish8
+24hpa_fish9
 48hpa_fish10
 48hpa_fish11
 48hpa_fish12
@@ -22,4 +23,10 @@ results
 72hpa_fish19
 72hpa_fish20
 72hpa_fish21
+cont_fish1
+cont_fish2
+cont_fish3
+cont_fish4
+cont_fish5
 mactrack/run.py
+mactrack/main.py
