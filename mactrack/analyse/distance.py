@@ -5,6 +5,10 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+def count_valid_entries(data):
+    num_valid_entries = data.notna().sum(axis=1)
+    return num_valid_entries
+
 def graph():
     file_path = 'output/data/distance.xlsx'
     data = pd.read_excel(file_path)
@@ -24,6 +28,7 @@ def graph():
     plt.ylabel('distance')
     plt.title('Courbes de distance des individus au cours du temps')
     plt.savefig('output/plot/courbes_distance_individus.png', format='png')
+    plt.close()
 
 def distance_to_right_edge(image_path):
     image = cv2.imread(image_path)

@@ -5,6 +5,10 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+def count_valid_entries(data):
+    num_valid_entries = data.notna().sum(axis=1)
+    return num_valid_entries
+
 def graph():
     file_path = 'output/data/intensity.xlsx'
     data = pd.read_excel(file_path)
@@ -25,6 +29,7 @@ def graph():
     plt.ylabel('Intensité')
     plt.title('Courbes d\'intensité des individus au cours du temps')
     plt.savefig('output/plot/courbes_intensite_individus.png', format='png')
+    plt.close()
 
 def graphmed():
     file_path = 'output/data/intensitymed.xlsx'
@@ -46,6 +51,7 @@ def graphmed():
     plt.ylabel('Intensité')
     plt.title('Courbes d\'intensité des individus au cours du temps')
     plt.savefig('output/plot/courbes_intensitemed_individus.png', format='png')
+    plt.close()
 
 def calculate_ratio(image_path_contour, image_a, image_f0):
     image_contour = cv2.imread(image_path_contour)
@@ -79,8 +85,8 @@ def calculate_ratio(image_path_contour, image_a, image_f0):
                 if f_0 != 0:
                     ratio = (f - f_0) / f_0
                     ratio_sum += ratio
-                    pixel_count += 1
-    
+                pixel_count += 1
+                    
     if pixel_count == 0:
         ratio_mean = 0
     else:

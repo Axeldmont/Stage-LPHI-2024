@@ -3,41 +3,29 @@ import os
 from video.frame import VideoFrames
 import numpy as np
 
-import os
-import cv2
-import numpy as np
+def median_green_intensity(input_folder, output_path):
+    image_files = [f for f in os.listdir(input_folder) if f.endswith('.jpg') or f.endswith('.png')]
 
-def create_median_green_image(folder_path, output_path):
-    image_files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
-    
     if not image_files:
-        raise ValueError("No images found in the folder.")
-    green_stack = []
+        print("No image files found in the folder.")
+        return
 
-    for image_file in image_files:
-        image_path = os.path.join(folder_path, image_file)
-        image = cv2.imread(image_path)
-        
-        if image is None:
-            print(f"Warning: Could not load image {image_file}, skipping.")
-            continue
-        
-        if len(green_stack) == 0:
-            green_stack = np.zeros((len(image_files), image.shape[0], image.shape[1]), dtype=np.uint8)
-        
-        if image.shape[:2] != green_stack.shape[1:]:
-            raise ValueError(f"Image size mismatch: {image_file} has different dimensions.")
-        
-        green_stack[len(green_stack)-1] = image[:, :, 1]
-    
-    if len(green_stack) == 0:
-        raise ValueError("No valid images found in the folder.")
+    first_image_path = os.path.join(input_folder, image_files[0])
+    first_image = cv2.imread(first_image_path, cv2.IMREAD_COLOR)
+    height, width, _ = first_image.shape
 
-    green_median = np.median(green_stack, axis=0).astype(np.uint8)
-    median_green_image = np.zeros((green_median.shape[0], green_median.shape[1], 3), dtype=np.uint8)
-    median_green_image[:, :, 1] = green_median
-    cv2.imwrite(os.path.join(output_path, "mediane.png"), median_green_image)
-    print(f"Median green intensity image saved to {output_path}")
+    green_channel_values = np.zeros((height, width, len(image_files)), dtype=np.uint8)
+
+    for idx, image_file in enumerate(image_files):
+        image_path = os.path.join(input_folder, image_file)
+        image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+        green_channel_values[:, :, idx] = image[:, :, 1]
+
+    median_green = np.median(green_channel_values, axis=2).astype(np.uint8)
+    median_green_image = np.zeros((height, width, 3), dtype=np.uint8)
+    median_green_image[:, :, 1] = median_green 
+    output_file = os.path.join(output_path, 'mediane.png')
+    cv2.imwrite(output_file, median_green_image)
 
 def create_average_green_image(folder_path, output_path):
     image_files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
@@ -121,7 +109,7 @@ def inputconfig(input_folder):
     video_capture.release()
     video_capture_v.release()
     create_average_green_image(output_folder_v, input_folder_v)
-    create_median_green_image(output_folder_v, input_folder_v)
+    median_green_intensity(output_folder_v, input_folder_v)
 
     return video_frames
 

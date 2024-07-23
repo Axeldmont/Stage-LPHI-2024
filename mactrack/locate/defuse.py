@@ -123,31 +123,38 @@ def defuse(n, image_storage):
                 print(i,j)
                 image_storage = process_images(matches, image1, i, j, image_storage)
             c = 0
-    save_segmentation_images(image_storage, "output/list_def")
     return image_storage
 
 
-def invdefuse():
+def invdefuse(n, image_storage):
     c = 0
-    for i in range (1,130):
-        input_folder_i = f"output/list_sep/heatmap_test_{129-i}"
-        files_i = os.listdir(input_folder_i)
-        print(input_folder_i)
-        for j in range(0,len(files_i)):
-            image_path = os.path.join(input_folder_i, f"object_{j}.png")
-            image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE) # cher
-            _, image1 = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
-            input_folder_k = f"output/list_sep/heatmap_test_{i+1}"
-            files_k = os.listdir(input_folder_k)
-            list = []
-            for k in range(0,len(files_k)):
-                imagecomp_path = os.path.join(input_folder_k, f"object_{k}.png")
-                imagecomp = cv2.imread(imagecomp_path, cv2.IMREAD_GRAYSCALE)
-                _, image2 = cv2.threshold(imagecomp, 127, 255, cv2.THRESH_BINARY)
+    for i in range(1, n):
+        print(f"heatmap_test_{n-i-1}")
+        current = len(image_storage.get_list(f"heatmap_test_{n-i-1}"))
+        for j in range(current):
+            image1 = image_storage.get_image(f"heatmap_test_{n-i-1}", f"object_{j}.png")
+            if image1 is not None:
+                image1 = image1.toarray()
+                _, image1 = cv2.threshold(image1, 127, 255, cv2.THRESH_BINARY)
+            else : 
+                print(n-i-1,j)
+
+            matches = []
+            previous = len(image_storage.get_list(f"heatmap_test_{n-i}"))
+            for k in range(previous):
+                image2 = image_storage.get_image(f"heatmap_test_{n-i}", f"object_{k}.png")
+                if image2 is not None:
+                    image2 = image2.toarray()
+                    _, image2 = cv2.threshold(image2, 127, 255, cv2.THRESH_BINARY)
+                else:
+                    print(n-i,k)
                 iou = calculate_iou(image1, image2)
                 if iou > 0:
-                    list.append(imagecomp_path)
-                    c = c + 1       
-            if c > 1 :
-                process_images(list,image_path)
+                    matches.append(image2)
+                    c += 1
+            if c > 1:
+                print(n-i-1,j)
+                image_storage = process_images(matches, image1, n-i-1, j, image_storage)
             c = 0
+    save_segmentation_images(image_storage, "output/list_def")
+    return image_storage

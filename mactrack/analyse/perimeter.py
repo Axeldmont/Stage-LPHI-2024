@@ -5,6 +5,10 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+def count_valid_entries(data):
+    num_valid_entries = data.notna().sum(axis=1)
+    return num_valid_entries
+
 def graph():
     file_path = 'output/data/perimeter.xlsx'
     data = pd.read_excel(file_path)
@@ -25,6 +29,7 @@ def graph():
     plt.ylabel('taille')
     plt.title('Courbes de périmetre des individus au cours du temps')
     plt.savefig('output/plot/courbes_perimetre_individus.png', format='png')
+    plt.close()
 
 def object_size(image_path):
     image = cv2.imread(image_path)
